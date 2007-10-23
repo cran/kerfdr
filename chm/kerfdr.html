@@ -1,0 +1,141 @@
+<html><head><title>kerfdr</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="Rchm.css">
+</head>
+<body>
+
+<table width="100%"><tr><td>kerfdr(kerfdr)</td><td align="right">R Documentation</td></tr></table><object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+<param name="keyword" value="R:   kerfdr">
+<param name="keyword" value=" kerfdr">
+</object>
+
+
+<h2>kerfdr</h2>
+
+
+<h3>Description</h3>
+
+<p>
+This function computes local fdr values by using a two-components mixture model with a semi-parametric density estimation. The code is freely inspired from the <a onclick="findlink('stats', 'density.html')" style="text-decoration: underline; color: blue; cursor: hand">density</a> function. For a simple use, we recommand the default setting (most parameters are optional).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>kerfdr(pv,x=NULL,trans=c("probit","log","none"),f0=NULL,localfdr=NULL,pi1="storey",lambda=0.5,bw=c("nrd0","nrd","ucv","bcv","sj-ste","sj-dpi"),kernel=c("gaussian","epanechnikov","rectangular","triangular","biweight","cosine"),truncat=c(0,1),plot=TRUE,cuts=c(1e-04,0.001,0.01,0.025,0.05,0.1))</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pv</code></td>
+<td>
+the vector of raw p-values.</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+a transformation of <code>pv</code>. It can be given by the user or (if <code>NULL</code>) computed via the <code>trans</code> parameter    </td></tr>
+<tr valign="top"><td><code>trans</code></td>
+<td>
+the transformation to apply on <code>pv</code> to produce <code>x</code>: <code>"probit"</code> (by default) returns <code>qnorm(pv)</code> and <code>"log"</code> returns <code>log10(pv)</code>. </td></tr>
+<tr valign="top"><td><code>f0</code></td>
+<td>
+the sample density under the null hypothesis. Can be specified by the user. If <code>NULL</code> (by default) the density under H0 is determined according to <code>trans</code>: if <code>trans = "probit"</code> then <code>f0</code> is a standard Gaussian distribution; if <code>trans = "log"</code> then <code>f0</code> is a standard Exponential distribution; if <code>trans = "none"</code> then <code>f0</code> is a standard Uniform distribution</td></tr>
+<tr valign="top"><td><code>localfdr</code></td>
+<td>
+values to initiate the iterative algorithm. If <code>NULL</code> (by default) initial values are then sampled in a Uniform distribution [0,1]</td></tr>
+<tr valign="top"><td><code>pi1</code></td>
+<td>
+a priori proportion of alternative hypothesis or a method (string) to compute it; by default it uses the method proposed by Storey and Tibshirani (2003).</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+p-value threshold for the Storey's calculation of <code>pi1</code> (0.5 by default). See <a onclick="findlink('qvalue', 'qvalue.html')" style="text-decoration: underline; color: blue; cursor: hand">qvalue</a> for more details. </td></tr>
+<tr valign="top"><td><code>bw</code></td>
+<td>
+a bandwidth value or a method to determine it among <code>"nrd0", "nrd", "ucv", "bcv", "sj-ste", "sj-dpi"</code>. See <a onclick="findlink('stats', 'bandwidth.html')" style="text-decoration: underline; color: blue; cursor: hand">bandwidth</a> for more details. </td></tr>
+<tr valign="top"><td><code>kernel</code></td>
+<td>
+the kernel used (string) among <code>"gaussian"</code> (by default), <code>"epanechnikov", "rectangular", "triangular", "biweight","cosine"</code>. For more details on kernels: <a href="http://stat.genopole.cnrs.fr/sg/software/kerfdr/kernels">http://stat.genopole.cnrs.fr/sg/software/kerfdr/kernels</a></td></tr>
+<tr valign="top"><td><code>truncat</code></td>
+<td>
+an interval on p-values to deal with truncated distributions such as those obtained with Monte-Carlo simulations.   </td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+if <code>TRUE</code>, it returns graphics of local fdr estimations. Some plots are inspired from <a onclick="findlink('qvalue', 'qvalue.html')" style="text-decoration: underline; color: blue; cursor: hand">qvalue</a>. </td></tr>
+<tr valign="top"><td><code>cuts</code></td>
+<td>
+vector of significance values to use in <code>summary</code> (see below)</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+A list of parameters (<code>pv, x, pi1, bw, f0</code> ...) and the following results: 
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>f</code></td>
+<td>
+the observed mixture density</td></tr>
+<tr valign="top"><td><code>f1</code></td>
+<td>
+the estimated density under H1</td></tr>
+<tr valign="top"><td><code>localfdr</code></td>
+<td>
+the local fdr values resulting from the algorithm </td></tr>
+<tr valign="top"><td><code>summary</code></td>
+<td>
+a summary table comparing the number of significant calls for the raw p-values, Bonferroni and Benjamini-Hochberg corrections and for the calculated local fdr, using a set of cutoffs given by <code>cuts</code></td></tr>
+</table>
+
+<h3>Author(s)</h3>
+
+<p>
+M Guedj, A Celisse, S Robin, G Nuel
+</p>
+
+
+<h3>References</h3>
+
+<p>
+<a href="http://stat.genopole.cnrs.fr/sg/software/kerfdr">http://stat.genopole.cnrs.fr/sg/software/kerfdr</a>, Robin et al (2007), Strimmer (2008), Guedj et al (under review)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre># Example 1: kerfdr with different plots
+n = 10000
+pi0 = 0.8
+# plot in a probit scale (default)
+pv = 1-pnorm(c(rnorm(n*pi0), rnorm(n*(1-pi0), 4)))
+res = kerfdr(pv)
+res$pi0
+res$summary
+# plot in a log scale
+kerfdr(pv, trans = "log")
+# plot in the raw p-values scale
+kerfdr(pv, trans = "none")
+# Example 2: truncation on a vector of null p-values (resulting local fdr should be 1 for each point)
+n = 10000
+pv = runif(n)
+# truncation on [0.1;0.9] 
+pv[which(pv &lt; 0.1)] = 0.1
+pv[which(pv &gt; 0.9)] = 0.9
+# kerfdr WITHOUT taking the truncation into account (local fdr is hence badly estimated)
+kerfdr(pv, trans = "log")
+# kerfdr by taking the truncation into account (local fdr is then well estimated)
+kerfdr(pv, truncat = c(0.1, 0.9), trans = "log") </pre>
+
+<script Language="JScript">
+function findlink(pkg, fn) {
+var Y, link;
+Y = location.href.lastIndexOf("\\") + 1;
+link = location.href.substring(0, Y);
+link = link + "../../" + pkg + "/chtml/" + pkg + ".chm::/" + fn;
+location.href = link;
+}
+</script>
+
+
+<hr><div align="center">[Package <em>kerfdr</em> version 1.0.1 <a href="00Index.html">Index]</a></div>
+
+</body></html>
