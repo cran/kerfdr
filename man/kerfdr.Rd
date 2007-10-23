@@ -2,7 +2,7 @@
 \alias{kerfdr}
 \title{kerfdr}
 \description{This function computes local fdr values by using a two-components mixture model with a semi-parametric density estimation. The code is freely inspired from the \link[stats]{density} function. For a simple use, we recommand the default setting (most parameters are optional). }
-\usage{kerfdr(pv,x=NULL,trans=c("probit","log","none"),f0=NULL,localfdr=NULL,pi1="storey",lambda=0.5,bw=c("nrd0","nrd","ucv","bcv","sj-ste","sj-dpi"),kernel=c("gaussian","epanechnikov","rectangular","triangular","biweight","cosine"),truncat=c(0,1),plot=TRUE,cuts=c(1e-04,0.001,0.01,0.025,0.05,0.1))}
+\usage{kerfdr(pv, x=NULL, trans=c("probit", "log", "none"), f0=NULL, localfdr=NULL, pi1="storey",lambda=0.5, bw=c("nrd0", "nrd", "ucv", "bcv", "sj-ste", "sj-dpi"),kernel=c("gaussian","epanechnikov", "rectangular", "triangular", "biweight","cosine"),truncat=c(0,1), plot=TRUE, cuts=c(1e-04, 0.001, 0.01, 0.025, 0.05, 0.1))  }
 \arguments{
 \item{pv}{the vector of raw p-values.}
 \item{x}{a transformation of \code{pv}. It can be given by the user or (if \code{NULL}) computed via the \code{trans} parameter    }
@@ -25,7 +25,7 @@
 }
 \author{M Guedj, A Celisse, S Robin, G Nuel}
 \keyword{nonparametric}
-\references{\url{http://stat.genopole.cnrs.fr/sg/software/kerfdr}, Robin et al (2007), Strimmer (2008), Guedj et al (under review)}
+\references{\url{http://stat.genopole.cnrs.fr/sg/software/kerfdr}, Robin et al (2007), Strimmer (2008), Guedj et al (2009)}
 \examples{# Example 1: kerfdr with different plots
 n = 10000
 pi0 = 0.8
@@ -48,3 +48,4 @@ pv[which(pv > 0.9)] = 0.9
 kerfdr(pv, trans = "log")
 # kerfdr by taking the truncation into account (local fdr is then well estimated)
 kerfdr(pv, truncat = c(0.1, 0.9), trans = "log") }
+\note{This is a contribution from the Tumor Identity Cards (CIT) program founded by the 'Ligue Nationale Contre le Cancer' (France): \url{http://cit.ligue-cancer.net}. For any question please contact \url{CITR@ligue-cancer.net}}

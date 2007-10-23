@@ -20,7 +20,7 @@
 # item >> summary >> a summary table comparing the number of significant calls for the raw p-values, Bonferroni and Benjamini-Hochberg corrections and for the calculated local fdr, using a set of cutoffs given by \code{cuts}
 # author >> M Guedj, A Celisse, S Robin, G Nuel
 # keyword >> nonparametric
-# references >> \url{http://stat.genopole.cnrs.fr/sg/software/kerfdr}, Robin et al (2007), Strimmer (2008), Guedj et al (under review)
+# references >> \url{http://stat.genopole.cnrs.fr/sg/software/kerfdr}, Robin et al (2007), Strimmer (2008), Guedj et al (2009)
 # examples >> # Example 1: kerfdr with different plots >> generating a vector of p-values with pi0 = 80%
 # examples >> n = 10000
 # examples >> pi0 = 0.8
@@ -230,6 +230,11 @@ kerfdr = function(
 		bw = bw, iter = iter, call = match.call(), data.name = name,
 		kords = kords, localfdr = localfdr, summary = counts)
 
+	results = list(pv = pv, x = x, f = pi1*f1+(1-pi1)*f0,
+		f0 = f0, f1 = f1,pi0 = pi0, pi1 = pi1, p0 = p0, p1 = p1,
+		bw = bw, iter = iter, data.name = name,
+		kords = kords, localfdr = localfdr, summary = counts)
+
 	# graphic output
 	if (plot == TRUE)
 	{
@@ -247,7 +252,7 @@ kerfdr = function(
 		plot(range(xtrunc),c(0,1.0),t="n",xlab=xlab, ylab="local fdr");
 		points(x,localfdr, cex = 0.5, pch = 20)
 		plot(pv, localfdr,xlab = "p-value", ylab = "local fdr", xlim = c(0,1), ylim = c(0,1), col = "darkgrey", cex = 0.7) 
-		plot(sort(localfdr), 1:length(localfdr),xlab = "local fdr", ylab = "nb of tests", xlim = c(0,1), col = "darkgrey", cex = 0.7) 	
+		plot(sort(localfdr), 1:length(sort(localfdr)),xlab = "local fdr", ylab = "nb of tests", xlim = c(0,1), col = "darkgrey", cex = 0.7) 	
 	}
 	
 	return(results)
